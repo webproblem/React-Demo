@@ -1,0 +1,11 @@
+@import '~antd/dist/antd.css';
+.App {
+  width: 90%;
+  margin: 0 auto;
+}
+.App .add-btn {
+    margin: 10px 0px;
+}
+.App .v-button-group button {
+    margin: 5px;
+}

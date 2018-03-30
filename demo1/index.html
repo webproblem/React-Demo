@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>react-demo</title>
+	<script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+	<script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+	<script src="https://cdn.bootcss.com/babel-standalone/6.22.1/babel.min.js"></script>
+	<style media="screen">
+		.react-app {
+			margin: 15px;
+		}
+	</style>
+</head>
+<body>
+    <div id="root" class="react-app"></div>
+	<script type="text/babel">
+		function formatName(user) {
+		  return user.firstName + ' ' + user.lastName;
+		}
+
+		const user = {
+		  firstName: 'Harper',
+		  lastName: 'Perez'
+		};
+		const element = <h1>Hello, {formatName(user)}</h1>;
+		ReactDOM.render(
+			element,
+			document.getElementById('root')
+		);
+	</script>
+
+	<div id="app" class="react-app"></div>
+	<script type="text/babel">
+		var names = ['react', 'vue', 'angular', 'jQuery'];
+		var appElement = <div>
+		  {
+			names.map(function (name, index) {
+			  return <div key={index}>Hello, {name}!</div>
+			})
+		  }
+		  </div>;
+		ReactDOM.render(
+			appElement,
+			document.getElementById('app')
+		);
+	</script>
+	<p>---------------------------------------------------------------------------</p>
+	<div id="app2" class="react-app"></div>
+	<script type="text/babel">
+		class Clock extends React.Component{
+			constructor(props) {
+				super(props);
+				this.state = {date: new Date()};
+			}
+			componentDidMount() {
+				this.timerID = setInterval(() => {
+					this.tick();
+				})
+			}
+			componentWillUnmount() {
+				clearInterval(this.timerID);
+			}
+			tick() {
+				this.setState({
+					date: new Date()
+				});
+			}
+			render() {
+				return (
+					<div>
+				        <h1>Hello, world!</h1>
+				        <h2>It is {this.state.date.toLocaleTimeString()}.</h2>
+				    </div>
+				)
+			}
+		}
+		ReactDOM.render(
+			<Clock />,
+			document.getElementById('app2')
+		)
+	</script>
+	<p>---------------------------------------------------------------------------</p>
+	<div id="app3" class="react-app"></div>
+	<script type="text/babel">
+		class Toggle extends React.Component{
+			constructor(props) {
+				super(props);
+				this.state = {isToggleOn: true};
+				this.handleClick = this.handleClick.bind(this);
+			}
+			handleClick() {
+				this.setState({
+					isToggleOn: !this.state.isToggleOn
+				})
+			}
+			render() {
+				return (
+					<button onClick={this.handleClick}>
+						{this.state.isToggleOn ? 'ON' : 'OFF'}
+					</button>
+				)
+			}
+		}
+		ReactDOM.render(
+			<Toggle/>,
+			document.getElementById('app3')
+		)
+	</script>
+	<p>---------------------------------------------------------------------------</p>
+	<div id="app4" class="react-app"></div>
+	<script type="text/babel">
+		function LogoutButton(props) {
+			return (
+				<button onClick={props.onClick}>Logout</button>
+			)
+		}
+		function LoginButton(props) {
+			return (
+				<button onClick={props.onClick}>Login</button>
+			)
+		}
+		function Greeting(props) {
+			const isLoggedIn = props.isLoggedIn;
+			if(isLoggedIn) {
+				return (
+					<h1>登录成功</h1>
+				)
+			}else {
+				return (
+					<h1>请先登录</h1>
+				)
+			}
+		}
+		class LoginControl extends React.Component{
+			constructor(props) {
+				super(props);
+				this.state = {isLoggedIn: false}
+				this.handleLoginClick = this.handleLoginClick.bind(this);
+				this.handleLogoutClick = this.handleLogoutClick.bind(this);
+			}
+			handleLoginClick() {
+				this.setState({isLoggedIn: true})
+			}
+			handleLogoutClick() {
+			    this.setState({isLoggedIn: false});
+			}
+			render() {
+				const isLoggedIn = this.state.isLoggedIn;
+				let buttonElement = null;
+				if(isLoggedIn) {
+					buttonElement = <LogoutButton onClick={this.handleLogoutClick}/>;
+				}else {
+					buttonElement = <LoginButton onClick={this.handleLoginClick}/>;
+				}
+				return (
+					<div>
+						<Greeting isLoggedIn={isLoggedIn}/>
+						{buttonElement}
+					</div>
+				)
+			}
+		}
+		ReactDOM.render(
+			<LoginControl />,
+			document.getElementById('app4')
+		)
+	</script>
+	<p>---------------------------------------------------------------------------</p>
+	<div id="app5" class="react-app"></div>
+	<script type="text/babel">
+		class Input extends React.Component{
+			constructor(props) {
+				super(props);
+				this.state = {value: "双向数据绑定"}
+				this.handleChange = this.handleChange.bind(this);
+			}
+			handleChange(event) {
+				this.setState({
+					value: event.target.value
+				})
+			}
+			render() {
+				return (
+					<div>
+						<input value={this.state.value} onChange={this.handleChange} />
+						<div>{this.state.value}</div>
+					</div>
+				)
+			}
+		}
+		ReactDOM.render(
+			<Input />,
+			document.getElementById("app5")
+		)
+	</script>
+	<p>---------------------------------------------------------------------------</p>
+	<div id="app6" class="react-app"></div>
+	<script type="text/babel">
+		const scaleNames = {
+			'c': '摄氏度',
+			'f': '华摄氏度'
+		};
+		//华摄氏度转摄氏度
+		function toCelsius(fahrenheit) {
+			return (fahrenheit - 32) * 5 / 9;
+		}
+		//摄氏度转华摄氏度
+		function toFahrenheit(celsius) {
+			return (celsius * 9 / 5) + 32;
+		}
+		function tryConvert(temperature, convert) {
+		  const input = parseFloat(temperature);
+		  if (Number.isNaN(input)) {
+		    return '';
+		  }
+		  const output = convert(input);
+		  const rounded = Math.round(output * 1000) / 1000;
+		  return rounded.toString();
+		}
+		function BoilingVerdict(props) {
+			if(props.celsius >= 100) {
+				return <p>结果：水开了</p>
+			}else {
+				return <p>结果：水还没有开</p>
+			}
+		}
+		class TemperatureInput extends React.Component{
+			constructor(props) {
+				super(props);
+				this.handleChange = this.handleChange.bind(this);
+			}
+			handleChange(e) {
+				this.props.onTemperatureChange(e.target.value);
+			}
+			render() {
+				const scale = this.props.scale;
+				const temperature = this.props.temperature;
+				return (
+					<div>
+						<span>请输入{scaleNames[scale]}</span>
+						<input value={temperature} onChange={this.handleChange} />
+					</div>
+				)
+			}
+		}
+		class Calculator extends React.Component{
+			constructor(props) {
+				super(props);
+				this.state = {
+					temperature: '',
+					scale: 'c'
+				}
+				this.handleCelsiusChange = this.handleCelsiusChange.bind(this);
+				this.handleFahrenheitChange = this.handleFahrenheitChange.bind(this);
+			}
+			handleCelsiusChange(temperature) {
+				this.setState({
+					scale: 'c',
+					temperature
+				})
+			}
+			handleFahrenheitChange(temperature) {
+				this.setState({
+					scale: 'f',
+					temperature
+				})
+			}
+			render() {
+				const scale = this.state.scale;
+				const temperature = this.state.temperature;
+				const celsius = scale == 'f' ? tryConvert(temperature, toCelsius) : temperature;
+				const fahrenheit = scale == 'c' ? tryConvert(temperature, toFahrenheit) : temperature;
+				return (
+					<div>
+						<TemperatureInput
+						scale="c"
+						temperature={celsius}
+						onTemperatureChange={this.handleCelsiusChange}
+						/>
+						<TemperatureInput
+						scale="f"
+						temperature={fahrenheit}
+						onTemperatureChange={this.handleFahrenheitChange}
+						/>
+						<BoilingVerdict celsius={parseFloat(celsius)} />
+					</div>
+				)
+			}
+		}
+		ReactDOM.render(
+			<Calculator />,
+			document.getElementById("app6")
+		)
+	</script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>react-demo</title>
+    	<script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    	<script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    	<script src="https://cdn.bootcss.com/babel-standalone/6.22.1/babel.min.js"></script>
+        <style media="screen">
+            * {
+                margin: 0;
+                padding: 0;
+            }
+            .demo {
+                margin: 30px 20px;
+            }
+            .i-comment-area{
+                width: 300px;
+                position: relative;
+                display: inline-block;
+                font-size: 14px;
+            }
+            .i-comment-area .i-textarea{
+                width: 100%;
+                height: auto;
+                vertical-align: bottom;
+                line-height: 1.5;
+                padding: 4px 7px;
+                border: 1px solid #dddee1;
+                border-radius: 4px;
+                color: #495060;
+                background-color: #fff;
+            }
+            .i-comment-area .i-textarea:focus{
+                box-shadow: none;
+                outline: 0;
+                border-color: #2d8cf0;
+            }
+            .i-comment-submit{
+                background-color: #2d8cf0;
+                border-radius: 4px;
+                padding: 6px 10px;
+                display: inline-block;
+                color: #fff;
+                cursor: pointer;
+                user-select: none;
+                margin-top: 10px;
+            }
+            #simple-comment{
+                width: 500px;
+            }
+            #simple-comment .title{
+                display: block;
+                font-weight: bolder;
+                font-size: 18px;
+                margin-top: 15px;
+                padding: 7px 0px;
+                border-bottom: 1px solid #ccc;
+            }
+            .comment-list li{
+                padding: 10px 0px;
+                border-bottom: 1px solid #ccc;
+            }
+            .comment-list li span{
+                display: block;
+                padding: 10px 0px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="app"></div>
+        <script type="text/babel">
+            function Icomment() {
+                return (
+                    <div className="i-comment-area">
+                        <textarea rows="5" className="i-textarea" placeholder="请输入内容"></textarea>
+                        <div className="i-comment-submit">
+                            <span>提交</span>
+                        </div>
+                    </div>
+                );
+            }
+            function SimpleComment() {
+                return (
+                    <div id="simple-comment" className="demo">
+                        <Icomment />
+                        <label className="title">评论列表</label>
+                    </div>
+                )
+            }
+            ReactDOM.render(
+                <SimpleComment />,
+                document.getElementById("app")
+            )
+        </script>
+    </body>
+</html>
